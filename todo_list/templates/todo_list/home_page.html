@@ -1,0 +1,64 @@
+{% extends 'todo_list/base.html' %}
+
+{% block  content %}
+
+    <nav class="navbar navbar-light" style="background-color: #DCDCDC;">
+        {% if user_is_active %}
+            <form class="container-fluid justify-content-start">
+                <a href="{% url 'task_create' %}" class="btn btn-dark">New Task</a>
+            </form>
+        {% else %}
+            Log in to create tasks
+        {% endif %}
+    </nav>
+
+    <div class="container mt-3">
+        {% for task in todo_list %}
+            <div class="card mt-3 mb-3">
+                <div class="card-header">
+                    <strong>{{ task.author }}</strong>, Deadline: {{ task.deadline }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ task }}</h5>
+                    <p class="card-text">{{ task.body|truncatewords:10 }}</p>
+                    <a href="{{ task.get_absolute_url }}" class="btn btn-primary">Read more</a>
+                </div>
+                <div class="card-footer text-muted">
+                    creation data: {{ task.date_create }}
+                </div>
+            </div>
+        {% endfor %}
+
+    {% if todo_list %}
+        {% if user_is_active %}
+            <nav aria-label="...">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">previous</a>
+                        </li>
+                    {% endif %}
+
+                    {% for page in paginator.page_range|slice:":3" %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">next</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item"><a class="page-link">Page {{ page_obj.number }}
+                        of {{ page_obj.paginator.num_pages }}.</a></li>
+                </ul>
+            </nav>
+        {% endif %}
+    {% endif %}
+    </div>
+{% endblock %}

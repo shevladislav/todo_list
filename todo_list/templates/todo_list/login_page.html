@@ -1,0 +1,11 @@
+{% extends 'todo_list/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block  content %}
+    <div class="container col-6 my-3">
+        <form method="post">
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
+    </div>
+{% endblock %}

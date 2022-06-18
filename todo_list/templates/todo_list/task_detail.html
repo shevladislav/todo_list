@@ -1,0 +1,41 @@
+{% extends 'todo_list/base.html' %}
+
+{% block content %}
+    <nav class="navbar bg" style="background: #DCDCDC">
+        <form class="container-fluid justify-content-start">
+            <a href="{% url 'task_update' task.pk %}" class="btn btn-warning me-2">Update task</a>
+            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete
+                task
+            </button>
+        </form>
+    </nav>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Deleting a task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the task?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="{{ task.get_absolute_url_for_delete }}" class="btn btn-primary">YES</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-2">
+        <h1>{{ task }}</h1>
+        <div style="border: solid 1px"></div>
+        <p><strong>DeadLine: {{ task.deadline }}</strong></p>
+        <div class="mb-5">
+            {{ task.body }}
+        </div>
+    </div>
+{% endblock %}
